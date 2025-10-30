@@ -3,7 +3,7 @@ import joblib
 import google.generativeai as genai
 
 # ✅ Configure Gemini API
-genai.configure(api_key="AIzaSyDRsvt4NKLx7tjXzpxdsTvzjjPkpBZu8Jc")
+genai.configure(api_key="")
 
 app = Flask(__name__)
 
