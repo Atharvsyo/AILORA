@@ -1,75 +1,358 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Disease Prediction Result</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #1e3c72;
-            background: linear-gradient(to right, #1e3c72, #2a5298);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            color: white;
-        }
-        .container {
-            background: rgba(255,255,255,0.12);
-            padding: 25px 35px;
-            border-radius: 10px;
-            width: 600px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.3);
-        }
-        h1 {
-            font-size: 28px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        p {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-        .block {
-            background: rgba(0, 0, 0, 0.25);
-            padding: 12px;
-            margin-top: 18px;
-            border-radius: 6px;
-            white-space: pre-wrap;
-        }
-        a {
-            text-decoration: none;
-            padding: 10px 20px;
-            background: #ffc107;
-            color: #222;
-            font-weight: bold;
-            display: inline-block;
-            margin-top: 20px;
-            border-radius: 6px;
-        }
-        a:hover {
-            background: #ffda44;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Disease Prediction Result</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analysis Results - AILORA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="robots" content="noindex,nofollow" />
+  </head>
+  <body
+    class="min-h-screen bg-gradient-to-br from-green-50 via-white to-cyan-50"
+  >
+    <header class="border-b border-slate-200 bg-white/80 backdrop-blur-sm">
+      <div class="max-w-6xl mx-auto px-6 py-2">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div
+              class="w-10 h-10 rounded-lg bg-gradient-to-br from-green-600 to-cyan-600 flex items-center justify-center text-white text-xl font-bold shadow-lg"
+            >
+              A
+            </div>
+            <div>
+              <h1 class="text-2xl font-bold text-slate-800">AILORA</h1>
+              <p class="text-xs text-slate-500">AI-Powered Health Assistant</p>
+            </div>
+          </div>
+          <a
+            href="{{ url_for('home') }}"
+            class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50 transition-colors"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              />
+            </svg>
+            New Analysis
+          </a>
+        </div>
+      </div>
+    </header>
 
-        <p><strong>Possible Diseases:</strong></p>
-        <ol>
-            {% for dis in prediction %}
-            <li>{{ dis }}</li>
-            {% endfor %}
-        </ol>
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-6 py-3">
+      <!-- Back Button Mobile -->
+      <div class="sm:hidden mb-5">
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 text-sm text-green-700 hover:text-green-600 font-medium"
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
+            />
+          </svg>
+          Back to Home
+        </a>
+      </div>
 
-        <p><strong>Details:</strong></p>
-        <div class="block">{{ explanation }}</div>
+      <!-- Results Header -->
+      <div class="text-center mb-5 mt-5">
+        <div
+          class="inline-flex items-center px-4 rounded-full text-green-700 text-sm font-medium mb-4"
+        >
+          <svg
+            class="w-8 h-8 text-green-600"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <h2 class="text-3xl font-bold text-slate-900">Analysis Complete</h2>
+        </div>
 
-        <a href="/">Predict Again</a>
-    </div>
-</body>
+        <p class="text-slate-600">
+          Based on the symptoms provided, here are the potential conditions
+        </p>
+      </div>
+
+      <!-- Detailed Explanation -->
+      <div
+        class="bg-white rounded-2xl shadow-xl border border-slate-200 p-8 mb-6"
+      >
+        <div class="flex items-center gap-3 mb-6">
+          <div
+            class="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center"
+          >
+            <svg
+              class="w-5 h-5 text-purple-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-slate-800">Detailed Analysis</h3>
+        </div>
+
+        <div class="prose prose-slate max-w-none">
+          <div
+            class="bg-slate-50 rounded-lg border border-slate-200 p-6 text-slate-700 leading-relaxed whitespace-pre-wrap"
+          >
+            {{ explanation }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Predicted Diseases -->
+      <div
+        class="bg-white rounded-2xl shadow-xl border border-slate-200 p-8 mb-6"
+      >
+        <div class="flex items-center gap-3 mb-6">
+          <div
+            class="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center"
+          >
+            <svg
+              class="w-5 h-5 text-green-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+              />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-slate-800">Possible Conditions</h3>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          {% for d in prediction %}
+          <div
+            class="group relative overflow-hidden rounded-lg border-2 border-slate-200 bg-gradient-to-br from-white to-slate-50 p-4 hover:border-green-300 hover:shadow-md transition-all"
+          >
+            <div class="flex items-start gap-3">
+              <div
+                class="flex-shrink-0 w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-bold text-sm"
+              >
+                {{ loop.index }}
+              </div>
+              <div class="flex-1">
+                <h4
+                  class="font-semibold text-slate-800 group-hover:text-green-700 transition-colors"
+                >
+                  {{ d }}
+                </h4>
+              </div>
+            </div>
+            <div
+              class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-green-500/5 to-cyan-500/5 rounded-bl-full"
+            ></div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Medical Disclaimer -->
+      <div class="bg-amber-50 border border-amber-200 rounded-xl p-6 mb-6">
+        <div class="flex items-start gap-3">
+          <svg
+            class="w-6 h-6 text-amber-600 mt-0.5 flex-shrink-0"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <div>
+            <h4 class="font-semibold text-amber-900 mb-2">
+              Important Medical Disclaimer
+            </h4>
+            <p class="text-sm text-amber-800 leading-relaxed">
+              This AI-powered tool provides preliminary insights based on the
+              symptoms you entered.
+              <strong>This is NOT a medical diagnosis.</strong> Always consult a
+              qualified healthcare provider for medical concerns. In case of
+              emergency, call your local emergency services immediately.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+          href="{{ url_for('home') }}"
+          class="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-green-600 to-cyan-600 px-8 py-3.5 font-semibold text-white shadow-lg hover:shadow-xl hover:from-green-700 hover:to-cyan-700 transition-all"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 4v16m8-8H4"
+            />
+          </svg>
+          New Analysis
+        </a>
+        <button
+          onclick="window.print()"
+          class="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-slate-300 bg-white px-8 py-3.5 font-semibold text-slate-700 hover:bg-slate-50 hover:border-slate-400 transition-all"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
+            />
+          </svg>
+          Print Results
+        </button>
+      </div>
+
+      <!-- Next Steps -->
+      <div
+        class="mt-12 bg-gradient-to-br from-green-50 to-cyan-50 rounded-2xl border border-green-200 p-8"
+      >
+        <h3 class="text-xl font-bold text-slate-800 mb-4 text-center">
+          Recommended Next Steps
+        </h3>
+        <div class="grid sm:grid-cols-3 gap-6">
+          <div class="text-center">
+            <div
+              class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-3"
+            >
+              <svg
+                class="w-6 h-6 text-green-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+            </div>
+            <h4 class="font-semibold text-slate-800 mb-1">
+              Schedule Appointment
+            </h4>
+            <p class="text-sm text-slate-600">
+              Book a consultation with your nearby healthcare
+            </p>
+          </div>
+          <div class="text-center">
+            <div
+              class="w-12 h-12 rounded-full bg-cyan-100 flex items-center justify-center mx-auto mb-3"
+            >
+              <svg
+                class="w-6 h-6 text-cyan-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+            </div>
+            <h4 class="font-semibold text-slate-800 mb-1">Track Symptoms</h4>
+            <p class="text-sm text-slate-600">
+              Monitor and document your symptoms daily
+            </p>
+          </div>
+          <div class="text-center">
+            <div
+              class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-3"
+            >
+              <svg
+                class="w-6 h-6 text-purple-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                />
+              </svg>
+            </div>
+            <h4 class="font-semibold text-slate-800 mb-1">Learn More</h4>
+            <p class="text-sm text-slate-600">
+              Research these conditions from trusted sources
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 bg-white mt-5">
+      <div class="max-w-6xl mx-auto px-6 py-4">
+        <div
+          class="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-slate-500"
+        >
+          <p>© 2025 AILORA. Powered by Machine Learning.</p>
+          <div class="flex items-center gap-4">
+            <span class="flex items-center gap-1.5">
+              <span
+                class="w-2 h-2 rounded-full bg-green-500 animate-pulse"
+              ></span>
+              System Online
+            </span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>

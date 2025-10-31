@@ -1,20 +1,249 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Disease Predictor</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="container">
-        <h1>🩺 AILORA </h1>
-        <p>Enter your symptoms below (e.g., fever, cough, headache)</p>
-        <form action="/predict" method="POST">
-            <input type="text" name="symptoms" placeholder="Enter symptoms..." required>
-            <button type="submit">Predict Disease</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AILORA - AI Disease Predictor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="robots" content="noindex,nofollow" />
+  </head>
+  <body
+    class="min-h-screen bg-gradient-to-br from-green-50 via-white to-cyan-50"
+  >
+    <!-- Header -->
+    <header class="border-b border-slate-200 bg-white/80 backdrop-blur-sm">
+      <div class="max-w-6xl mx-auto px-6 py-2">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div
+              class="w-10 h-10 rounded-lg bg-gradient-to-br from-green-600 to-cyan-600 flex items-center justify-center text-white text-xl font-bold shadow-lg"
+            >
+              A
+            </div>
+            <div>
+              <h1 class="text-2xl font-bold text-slate-800">AILORA</h1>
+              <p class="text-xs text-slate-500">AI-Powered Health Assistant</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-3xl mx-auto px-6 py-5">
+      <!-- Hero Section -->
+      <div class="text-center mb-10">
+        <div
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-100 text-green-700 text-sm font-medium mb-4"
+        >
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          Beta Version
+        </div>
+        <h2 class="text-4xl font-bold text-slate-900 mb-3">
+          Symptom-Based Disease Prediction
+        </h2>
+        <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+          Our advanced machine learning model analyzes your symptoms to provide
+          preliminary health insights.
+        </p>
+      </div>
+
+      <!-- Alert Message -->
+      {% if error %}
+      <div
+        class="mb-6 rounded-lg border-l-4 border-red-500 bg-red-50 p-4 shadow-sm"
+      >
+        <div class="flex items-start">
+          <svg
+            class="w-5 h-5 text-red-500 mt-0.5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <div class="ml-3">
+            <p class="text-sm font-medium text-red-800">{{ error }}</p>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Prediction Form -->
+      <div
+        class="bg-white rounded-2xl shadow-xl border border-slate-200 px-8 py-5 mt-5 mb-5"
+      >
+        <form action="/predict" method="POST" class="space-y-6">
+          <div>
+            <label for="symptoms" class="block font-bold text-lg mb-2">
+              Enter your symptoms below to get started.
+            </label>
+            <div class="relative">
+              <textarea
+                id="symptoms"
+                name="symptoms"
+                rows="4"
+                placeholder="e.g., fever, persistent cough, headache, fatigue, body aches..."
+                required
+                class="w-full rounded-lg border border-slate-300 px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all resize-none"
+              ></textarea>
+              <div class="absolute bottom-3 right-3 text-xs text-slate-400">
+                Separate symptoms with commas
+              </div>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-green-600 to-cyan-600 px-6 py-3.5 font-semibold text-white shadow-lg hover:shadow-xl hover:from-green-700 hover:to-cyan-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+              />
+            </svg>
+            Analyze Symptoms
+          </button>
         </form>
-        <footer>Powered by Machine Learning 💡</footer>
-    </div>
-</body>
+      </div>
+
+      <!-- Medical Disclaimer -->
+      <div class="bg-amber-50 border border-amber-200 rounded-xl p-6 mb-6">
+        <div class="flex items-start gap-3">
+          <svg
+            class="w-6 h-6 text-amber-600 mt-0.5 flex-shrink-0"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <div>
+            <h4 class="font-semibold text-amber-900 mb-2">
+              Important Medical Disclaimer
+            </h4>
+            <p class="text-sm text-amber-800 leading-relaxed">
+              This AI-powered tool provides preliminary insights based on the
+              symptoms you entered.
+              <strong>This is NOT a medical diagnosis.</strong> Always consult a
+              qualified healthcare provider for medical concerns. In case of
+              emergency, call your local emergency services immediately.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Features -->
+      <div class="mt-12 grid sm:grid-cols-3 gap-6">
+        <div
+          class="text-center p-6 bg-white rounded-xl border border-slate-200"
+        >
+          <div
+            class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-3"
+          >
+            <svg
+              class="w-6 h-6 text-green-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 10V3L4 14h7v7l9-11h-7z"
+              />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-slate-800 mb-1">Fast Analysis</h3>
+          <p class="text-sm text-slate-600">Get results in seconds</p>
+        </div>
+        <div
+          class="text-center p-6 bg-white rounded-xl border border-slate-200"
+        >
+          <div
+            class="w-12 h-12 rounded-full bg-cyan-100 flex items-center justify-center mx-auto mb-3"
+          >
+            <svg
+              class="w-6 h-6 text-cyan-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-slate-800 mb-1">AI-Powered</h3>
+          <p class="text-sm text-slate-600">Advanced ML algorithms</p>
+        </div>
+        <div
+          class="text-center p-6 bg-white rounded-xl border border-slate-200"
+        >
+          <div
+            class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-3"
+          >
+            <svg
+              class="w-6 h-6 text-purple-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+              />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-slate-800 mb-1">Private & Secure</h3>
+          <p class="text-sm text-slate-600">Your data is protected</p>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 bg-white mt-5">
+      <div class="max-w-6xl mx-auto px-6 py-4">
+        <div
+          class="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-slate-500"
+        >
+          <p>© 2025 AILORA. Powered by Machine Learning.</p>
+          <div class="flex items-center gap-4">
+            <span class="flex items-center gap-1.5">
+              <span
+                class="w-2 h-2 rounded-full bg-green-500 animate-pulse"
+              ></span>
+              System Online
+            </span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>
