@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.env
+*.venv
+env/
+venv/
+.env
+# Virtualenv metadata
+pip-wheel-metadata/
+*.egg-info/
+
+# IDEs
+.vscode/
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node / Frontend
+node_modules/
+
+# Secrets & models
+.env
+*.pkl
+models/
