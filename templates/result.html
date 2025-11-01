@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Analysis Results - AILORA</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}"/>
     <script src="https://cdn.tailwindcss.com"></script>
     <meta name="robots" content="noindex,nofollow" />
   </head>
@@ -11,16 +12,18 @@
     class="min-h-screen bg-gradient-to-br from-green-50 via-white to-cyan-50"
   >
     <header class="border-b border-slate-200 bg-white/80 backdrop-blur-sm">
-      <div class="max-w-6xl mx-auto px-6 py-2">
+      <div class="max-w-6xl mx-auto px-4 sm:px-16 py-2">
         <div class="flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div
-              class="w-10 h-10 rounded-lg bg-gradient-to-br from-green-600 to-cyan-600 flex items-center justify-center text-white text-xl font-bold shadow-lg"
-            >
-              A
-            </div>
+          <div class="flex items-center gap-2 sm:gap-3">
+            <img
+              src="{{ url_for('static', filename='images/logo.png') }}"
+              alt="Logo"
+              class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg object-contain"
+            />
             <div>
-              <h1 class="text-2xl font-bold text-slate-800">AILORA</h1>
+              <h1 class="text-xl sm:text-2xl font-bold text-slate-800">
+                AILORA
+              </h1>
               <p class="text-xs text-slate-500">AI-Powered Health Assistant</p>
             </div>
           </div>
@@ -48,9 +51,9 @@
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-4xl mx-auto px-6 py-3">
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-3">
       <!-- Back Button Mobile -->
-      <div class="sm:hidden mb-5">
+      <div class="sm:hidden mb-4">
         <a
           href="/"
           class="inline-flex items-center gap-2 text-sm text-green-700 hover:text-green-600 font-medium"
@@ -73,12 +76,12 @@
       </div>
 
       <!-- Results Header -->
-      <div class="text-center mb-5 mt-5">
+      <div class="text-center mb-4 sm:mb-5 mt-4 sm:mt-5">
         <div
-          class="inline-flex items-center px-4 rounded-full text-green-700 text-sm font-medium mb-4"
+          class="inline-flex items-center gap-2 sm:gap-3 px-3 sm:px-4 rounded-full text-green-700 text-xs sm:text-sm font-medium mb-3 sm:mb-4"
         >
           <svg
-            class="w-8 h-8 text-green-600"
+            class="w-6 h-6 sm:w-8 sm:h-8 text-green-600"
             fill="currentColor"
             viewBox="0 0 20 20"
           >
@@ -88,24 +91,25 @@
               clip-rule="evenodd"
             />
           </svg>
-          <h2 class="text-3xl font-bold text-slate-900">Analysis Complete</h2>
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">
+            Analysis Completed
+          </h2>
         </div>
 
-        <p class="text-slate-600">
+        <p class="text-sm sm:text-base text-slate-600 px-2">
           Based on the symptoms provided, here are the potential conditions
         </p>
       </div>
 
-      <!-- Detailed Explanation -->
       <div
-        class="bg-white rounded-2xl shadow-xl border border-slate-200 p-8 mb-6"
+        class="bg-white rounded-xl sm:rounded-2xl shadow-xl border border-slate-200 p-4 sm:p-6 mb-4 sm:mb-6"
       >
-        <div class="flex items-center gap-3 mb-6">
+        <div class="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
           <div
-            class="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center"
+            class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-green-100 flex items-center justify-center flex-shrink-0"
           >
             <svg
-              class="w-5 h-5 text-purple-600"
+              class="w-4 h-4 sm:w-5 sm:h-5 text-green-600"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -114,32 +118,43 @@
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                d="M9 12h6m2 10H7a2 2 0 01-2-2V7a2 2 0 012-2h3l2-2h4l2 2h3a2 2 0 012 2v13a2 2 0 01-2 2z"
               />
             </svg>
           </div>
-          <h3 class="text-xl font-bold text-slate-800">Detailed Analysis</h3>
+          <h3 class="text-base sm:text-lg font-semibold text-slate-800">
+            Provided Symptoms
+          </h3>
         </div>
 
-        <div class="prose prose-slate max-w-none">
-          <div
-            class="bg-slate-50 rounded-lg border border-slate-200 p-6 text-slate-700 leading-relaxed whitespace-pre-wrap"
+        {% if symptoms %} {% if symptoms is string %}
+        <p class="text-sm sm:text-base text-slate-700 break-words">
+          {{ symptoms }}
+        </p>
+        {% else %}
+        <div class="flex flex-wrap gap-2">
+          {% for s in symptoms %}
+          <span
+            class="px-2 sm:px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs sm:text-sm border border-green-100 break-words"
+            >{{ s }}</span
           >
-            {{ explanation }}
-          </div>
+          {% endfor %}
         </div>
+        {% endif %} {% endif %}
       </div>
 
       <!-- Predicted Diseases -->
+      {% if explanation and explanation|length > 0 and (explanation[0] is
+      mapping and "Disease Name" in explanation[0]) %}
       <div
-        class="bg-white rounded-2xl shadow-xl border border-slate-200 p-8 mb-6"
+        class="bg-white rounded-xl sm:rounded-2xl shadow-xl border border-slate-200 p-4 sm:p-6 md:p-8 mb-4 sm:mb-6"
       >
-        <div class="flex items-center gap-3 mb-6">
+        <div class="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
           <div
-            class="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center"
+            class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-green-100 flex items-center justify-center flex-shrink-0"
           >
             <svg
-              class="w-5 h-5 text-green-600"
+              class="w-4 h-4 sm:w-5 sm:h-5 text-green-600"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -152,23 +167,25 @@
               />
             </svg>
           </div>
-          <h3 class="text-xl font-bold text-slate-800">Possible Conditions</h3>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-800">
+            Possible Conditions
+          </h3>
         </div>
 
-        <div class="grid sm:grid-cols-2 gap-4">
+        <div class="grid sm:grid-cols-2 gap-3 sm:gap-4">
           {% for d in prediction %}
           <div
-            class="group relative overflow-hidden rounded-lg border-2 border-slate-200 bg-gradient-to-br from-white to-slate-50 p-4 hover:border-green-300 hover:shadow-md transition-all"
+            class="group relative overflow-hidden rounded-lg border-2 border-slate-200 bg-gradient-to-br from-white to-slate-50 p-3 sm:p-4 hover:border-green-300 hover:shadow-md transition-all"
           >
-            <div class="flex items-start gap-3">
+            <div class="flex items-start gap-2 sm:gap-3">
               <div
-                class="flex-shrink-0 w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-bold text-sm"
+                class="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-bold text-xs sm:text-sm"
               >
                 {{ loop.index }}
               </div>
-              <div class="flex-1">
+              <div class="flex-1 min-w-0">
                 <h4
-                  class="font-semibold text-slate-800 group-hover:text-green-700 transition-colors"
+                  class="font-semibold text-sm sm:text-base text-slate-800 group-hover:text-green-700 transition-colors break-words"
                 >
                   {{ d }}
                 </h4>
@@ -181,12 +198,94 @@
           {% endfor %}
         </div>
       </div>
+      {% endif %}
+
+      <!-- Detailed Explanation -->
+      <div
+        class="bg-white rounded-xl sm:rounded-2xl shadow-xl border border-slate-200 p-4 sm:p-6 md:p-8 mb-4 sm:mb-6"
+      >
+        <div class="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+          <div
+            class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-purple-100 flex items-center justify-center flex-shrink-0"
+          >
+            <svg
+              class="w-4 h-4 sm:w-5 sm:h-5 text-purple-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-800">
+            Detailed Analysis
+          </h3>
+        </div>
+
+        {% if explanation and explanation|length > 0 %} {% if explanation[0] is
+        mapping and "Disease Name" in explanation[0] %}
+        <div class="grid gap-4 sm:gap-6">
+          {% for disease in explanation %}
+          <div
+            class="bg-slate-50 border border-slate-200 rounded-xl p-4 sm:p-6 leading-relaxed"
+          >
+            <h2 class="text-base sm:text-lg font-semibold text-purple-700 mb-2">
+              {{ disease["Disease Name"] if "Disease Name" in disease else
+              "Unknown Disease" }}
+            </h2>
+            <p class="text-sm sm:text-base text-slate-700 mb-2">
+              <strong>Description:</strong> {{ disease["Description"] if
+              "Description" in disease else "No description available" }}
+            </p>
+            <p class="text-sm sm:text-base text-slate-700 mb-2">
+              <strong>Treatment:</strong> {{ disease["Treatment"] if "Treatment"
+              in disease else "Please consult a healthcare provider" }}
+            </p>
+            <p class="text-sm sm:text-base text-slate-700">
+              <strong>Prevention:</strong> {{ disease["Prevention"] if
+              "Prevention" in disease else "General preventive measures
+              recommended" }}
+            </p>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <!-- Handles invalid or non-medical input -->
+        <div
+          class="bg-yellow-50 border border-yellow-300 rounded-xl p-4 sm:p-6"
+        >
+          {% if explanation[0] is mapping %}
+          <p class="text-sm sm:text-base text-slate-700 mb-2">
+            <strong>Input:</strong> {{ explanation[0]["symptoms"] if "symptoms"
+            in explanation[0] else "N/A" }}
+          </p>
+          <p class="text-sm sm:text-base text-slate-700">
+            <strong>Response:</strong> {{ explanation[0]["response"] if
+            "response" in explanation[0] else "Unable to process request" }}
+          </p>
+          {% else %}
+          <p class="text-sm sm:text-base text-slate-700">
+            {{ explanation[0] }}
+          </p>
+          {% endif %}
+        </div>
+        {% endif %} {% else %}
+        <p class="text-gray-500">No information available.</p>
+        {% endif %}
+      </div>
 
       <!-- Medical Disclaimer -->
-      <div class="bg-amber-50 border border-amber-200 rounded-xl p-6 mb-6">
-        <div class="flex items-start gap-3">
+      <div
+        class="bg-amber-50 border border-amber-200 rounded-xl p-4 sm:p-6 mb-4 sm:mb-6"
+      >
+        <div class="flex items-start gap-2 sm:gap-3">
           <svg
-            class="w-6 h-6 text-amber-600 mt-0.5 flex-shrink-0"
+            class="w-5 h-5 sm:w-6 sm:h-6 text-amber-600 mt-0.5 flex-shrink-0"
             fill="currentColor"
             viewBox="0 0 20 20"
           >
@@ -197,10 +296,12 @@
             />
           </svg>
           <div>
-            <h4 class="font-semibold text-amber-900 mb-2">
+            <h4
+              class="font-semibold text-amber-900 mb-1.5 sm:mb-2 text-sm sm:text-base"
+            >
               Important Medical Disclaimer
             </h4>
-            <p class="text-sm text-amber-800 leading-relaxed">
+            <p class="text-xs sm:text-sm text-amber-800 leading-relaxed">
               This AI-powered tool provides preliminary insights based on the
               symptoms you entered.
               <strong>This is NOT a medical diagnosis.</strong> Always consult a
@@ -212,10 +313,10 @@
       </div>
 
       <!-- Action Buttons -->
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
         <a
           href="{{ url_for('home') }}"
-          class="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-green-600 to-cyan-600 px-8 py-3.5 font-semibold text-white shadow-lg hover:shadow-xl hover:from-green-700 hover:to-cyan-700 transition-all"
+          class="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-green-600 to-cyan-600 px-6 sm:px-8 py-3 sm:py-3.5 font-semibold text-sm sm:text-base text-white shadow-lg hover:shadow-xl hover:from-green-700 hover:to-cyan-700 transition-all"
         >
           <svg
             class="w-5 h-5"
@@ -234,7 +335,7 @@
         </a>
         <button
           onclick="window.print()"
-          class="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-slate-300 bg-white px-8 py-3.5 font-semibold text-slate-700 hover:bg-slate-50 hover:border-slate-400 transition-all"
+          class="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-slate-300 bg-white px-6 sm:px-8 py-3 sm:py-3.5 font-semibold text-sm sm:text-base text-slate-700 hover:bg-slate-50 hover:border-slate-400 transition-all"
         >
           <svg
             class="w-5 h-5"
@@ -255,18 +356,20 @@
 
       <!-- Next Steps -->
       <div
-        class="mt-12 bg-gradient-to-br from-green-50 to-cyan-50 rounded-2xl border border-green-200 p-8"
+        class="mt-6 sm:mt-8 md:mt-12 bg-gradient-to-br from-green-50 to-cyan-50 rounded-xl sm:rounded-2xl border border-green-200 p-4 sm:p-6 md:p-8"
       >
-        <h3 class="text-xl font-bold text-slate-800 mb-4 text-center">
+        <h3
+          class="text-lg sm:text-xl font-bold text-slate-800 mb-3 sm:mb-4 text-center"
+        >
           Recommended Next Steps
         </h3>
-        <div class="grid sm:grid-cols-3 gap-6">
+        <div class="grid sm:grid-cols-3 gap-4 sm:gap-6">
           <div class="text-center">
             <div
-              class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-3"
+              class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-2 sm:mb-3"
             >
               <svg
-                class="w-6 h-6 text-green-600"
+                class="w-5 h-5 sm:w-6 sm:h-6 text-green-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -279,19 +382,19 @@
                 />
               </svg>
             </div>
-            <h4 class="font-semibold text-slate-800 mb-1">
+            <h4 class="font-semibold text-sm sm:text-base text-slate-800 mb-1">
               Schedule Appointment
             </h4>
-            <p class="text-sm text-slate-600">
+            <p class="text-xs sm:text-sm text-slate-600">
               Book a consultation with your nearby healthcare
             </p>
           </div>
           <div class="text-center">
             <div
-              class="w-12 h-12 rounded-full bg-cyan-100 flex items-center justify-center mx-auto mb-3"
+              class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-cyan-100 flex items-center justify-center mx-auto mb-2 sm:mb-3"
             >
               <svg
-                class="w-6 h-6 text-cyan-600"
+                class="w-5 h-5 sm:w-6 sm:h-6 text-cyan-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -304,17 +407,19 @@
                 />
               </svg>
             </div>
-            <h4 class="font-semibold text-slate-800 mb-1">Track Symptoms</h4>
-            <p class="text-sm text-slate-600">
+            <h4 class="font-semibold text-sm sm:text-base text-slate-800 mb-1">
+              Track Symptoms
+            </h4>
+            <p class="text-xs sm:text-sm text-slate-600">
               Monitor and document your symptoms daily
             </p>
           </div>
           <div class="text-center">
             <div
-              class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-3"
+              class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-2 sm:mb-3"
             >
               <svg
-                class="w-6 h-6 text-purple-600"
+                class="w-5 h-5 sm:w-6 sm:h-6 text-purple-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -327,8 +432,10 @@
                 />
               </svg>
             </div>
-            <h4 class="font-semibold text-slate-800 mb-1">Learn More</h4>
-            <p class="text-sm text-slate-600">
+            <h4 class="font-semibold text-sm sm:text-base text-slate-800 mb-1">
+              Learn More
+            </h4>
+            <p class="text-xs sm:text-sm text-slate-600">
               Research these conditions from trusted sources
             </p>
           </div>
@@ -337,10 +444,10 @@
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-slate-200 bg-white mt-5">
-      <div class="max-w-6xl mx-auto px-6 py-4">
+    <footer class="border-t border-slate-200 bg-white mt-4 sm:mt-5">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
         <div
-          class="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-slate-500"
+          class="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 text-xs sm:text-sm text-slate-500"
         >
           <p>© 2025 AILORA. Powered by Machine Learning.</p>
           <div class="flex items-center gap-4">
